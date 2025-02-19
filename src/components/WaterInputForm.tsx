@@ -9,7 +9,13 @@ const WaterInputForm: React.FC = () => {
     waterBody: "water1" | "water2",
     property: "weight" | "temperature",
   ) => {
-    const value = Number.parseFloat(e.target.value)
+    let value = Number.parseFloat(e.target.value)
+    
+    // Ensure temperature is within the range 0 to 100
+    if (property === "temperature") {
+      value = Math.max(0, Math.min(100, value))
+    }
+
     if (waterBody === "water1") {
       setWater1((prev) => ({ ...prev, [property]: value }))
     } else {
@@ -42,7 +48,8 @@ const WaterInputForm: React.FC = () => {
               value={water1.temperature ?? 25}
               onChange={(e) => handleChange(e, "water1", "temperature")}
               placeholder="Temperature"
-              min={Number.NEGATIVE_INFINITY}
+              min={0}
+              max={100}
               className="w-full p-2 pl-8 pr-12 bg-white/20 border border-white/30 rounded text-white placeholder-white/50 number-hide-controls"
             />
             <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50">°C</span>
@@ -69,7 +76,8 @@ const WaterInputForm: React.FC = () => {
               value={water2.temperature ?? 20}
               onChange={(e) => handleChange(e, "water2", "temperature")}
               placeholder="Temperature"
-              min={Number.NEGATIVE_INFINITY}
+              min={0}
+              max={100}
               className="w-full p-2 pl-8 pr-12 bg-white/20 border border-white/30 rounded text-white placeholder-white/50 number-hide-controls"
             />
             <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50">°C</span>
